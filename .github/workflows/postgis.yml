@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   postgis:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'postgis', strategy.job-index) || inputs.runner }}
     defaults:
       run:
         # Use Conda shell in all steps. See https://github.com/marketplace/actions/setup-miniconda#use-a-default-shell

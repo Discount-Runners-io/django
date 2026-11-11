@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   define-matrix:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'define-matrix', strategy.job-index) || inputs.runner }}
     outputs:
       python_versions_output: ${{ steps.set-matrix.outputs.python_versions }}
     timeout-minutes: 60
@@ -39,7 +39,7 @@ jobs:
         echo "Supported Python versions: $python_versions"
         echo "python_versions=[$python_versions]" >> "$GITHUB_OUTPUT"
   python:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'python', strategy.job-index) || inputs.runner }}
     needs: define-matrix
     strategy:
       fail-fast: false

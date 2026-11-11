@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   ubuntu-free-threading:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'ubuntu-free-threading', strategy.job-index) || inputs.runner }}
     strategy:
       fail-fast: false
       matrix:
@@ -52,7 +52,7 @@ jobs:
       run: python -Wall tests/runtests.py -v2
 
   javascript-tests:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'javascript-tests', strategy.job-index) || inputs.runner }}
     name: JavaScript tests
     timeout-minutes: 60
     steps:
@@ -72,7 +72,7 @@ jobs:
     - run: npm test
 
   scripts-tests:
-    runs-on: ${{ inputs.runner }}
+    runs-on: ${{ startsWith(inputs.runner, 'discountrunners-auto') && format('{0}/key={1}-{2}-{3}', inputs.runner, github.run_id, 'scripts-tests', strategy.job-index) || inputs.runner }}
     name: Scripts tests
     timeout-minutes: 60
     steps:
